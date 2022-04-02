@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, {useState} from 'react'
+import React from 'react'
 
-const Task = () => {
-  const [task, setTask] = useState('');
+const Task = (props) => {
+  
   return (
     <View>
       <View style= {styles.taskItems}>
         <View style={styles.itemLeft}>
           <View style = {styles.box}/>
-          <Text style = {styles.itemText}>This is a Task</Text>
+          <Text style = {styles.itemText}>{props.text}</Text>
         </View>
         <View style={styles.circle}/>
           
@@ -25,10 +25,10 @@ export default Task
 
 const styles = StyleSheet.create({
   taskItems:{
-    backgroundColor: '#F6F6F6',
+    backgroundColor: '#FDFEFE',
     marginBottom: 30,
     height: 60,
-    borderRadius: 10,
+    borderRadius: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 15,

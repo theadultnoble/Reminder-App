@@ -1,22 +1,52 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity} from 'react-native'
-import React from 'react'
+import React, {useState} from 'react'
 import Task from '../components/Task'
 import { MaterialIcons } from '@expo/vector-icons';
+import { Keyboard } from 'react-native';
 
 const HomeScreen = () => {
+    const [task, setTask] = useState('');
+    const [taskItems, setTaskItems] = useState([]);
+
+    const handleAddTask = () => {
+        Keyboard.dismiss();
+        setTaskItems([...taskItems, task])
+        setTask(null);
+
+    }
+    const completeTask = (index) => {
+        let itemsCopy = [...taskItems];
+        itemsCopy.splice(index, 1);
+        setTaskItems(itemsCopy);
+
+    }
+
   return (
     <View  style={styles.container}>
         <View style={styles.taskWrapper}>
          <Text style={styles.textTitle}>Today's tasks </Text>
-         <Task/>
-         <Task/>
-         <Task/>
+         {
+             taskItems.map((item, index) => {
+                return (
+                    <TouchableOpacity key={index} onPress={() => completeTask(index)}>
+                      <Task text={item}/>
+                    </TouchableOpacity>
+                )
+             })
+         }
         </View>
+
+
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.writeTaskWrapper}>
-            <TextInput placeholder={'Write a task'} style={styles.TextInput}></TextInput>
-            <TouchableOpacity  >
+            <TextInput 
+               placeholder={'Write a task'}
+               style={styles.TextInput}
+               onChangeText = {text => setTask(text)}
+               value= {task}
+            />
+            <TouchableOpacity onPress={()=> handleAddTask()} >
                 <View style={styles.addWrapper}>
-                    <MaterialIcons name="add" size={35} color="#55BCF6" />
+                    <MaterialIcons name="add" size={25} color="#55BCF6" />
                 </View>
 
             </TouchableOpacity>
@@ -47,7 +77,7 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         paddingHorizontal:15,
         width:250,
-        height: 60,
+        height: 55,
         backgroundColor: '#FFFFFF',
         borderRadius: 60,
         borderColor: '#E8EAED',
@@ -62,10 +92,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     addWrapper:{
-        width: 80,
-        height: 80,
+        width: 73,
+        height: 73,
         backgroundColor:'#FFFFFF',
-        borderRadius: 80,
+        borderRadius: 73,
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: '#E8EAED',
